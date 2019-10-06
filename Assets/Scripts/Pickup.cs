@@ -8,53 +8,58 @@ public class Pickup : MonoBehaviour
 
     public float throwForce = 10;
 
-    private bool hasPlayer = false;
+    public static bool hasPlayer = false;
 
     private bool beingCarried = false;
 
     public Rigidbody Rb;
     
-    private bool Throw = false;
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
-        if (other.tag == "PileOStuff")
-        {
-            Throw = true;
-        }
+        
         hasPlayer = true;
         Debug.Log("Hit!");
     }
 
-    void OnTriggerExit(Collider other)
+    void OnCollisionExit(Collision other)
     {
-        if (other.tag == "PileOStuff")
+        if (other.gameObject.tag == "Player")
         {
-            Throw = false;
+            hasPlayer = false;
+            Debug.Log("Not Hit!");
         }
-        hasPlayer = false;
-        Debug.Log("Not Hit!");
+        
+       
     }
     // Start is called before the first frame update
     void Start()
     {
         Rb = GetComponent<Rigidbody>();
-     
+        EnemyHit.hitEnemy = true;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        Vector3 destination = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
         if (beingCarried)
         {
             if (Input.GetMouseButtonDown(0))
             {
                 transform.parent = null;
                 beingCarried = false;
-                Rb.AddForce(player.forward * throwForce);
+                //sets bool to false
+                EnemyHit.hitEnemy = false;
+                Debug.Log("Miss");
+
+                
                 Rb.isKinematic = false;
 
-                Debug.Log("throw");
+                Rb.AddForce(player.forward * throwForce, ForceMode.Impulse);
+
 
             }
         }
@@ -62,9 +67,15 @@ public class Pickup : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && hasPlayer)
             {
-                Rb.isKinematic = true;
-                transform.parent = player;
-                beingCarried = true;
+                //if the enemyhit returns true, then run this
+                if (EnemyHit.hitEnemy == true)
+                {
+                    Rb.isKinematic = true;
+                    transform.parent = player;
+                    transform.localPosition = new Vector3(0,.5f,1);
+                    beingCarried = true;
+                }
+               
             }
         }
     }
