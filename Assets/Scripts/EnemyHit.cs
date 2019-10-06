@@ -17,7 +17,9 @@ public class EnemyHit : MonoBehaviour
         if (other.gameObject.tag == "Ball")
         {
 
+            //for some reason they dont both work? need a way to fix this
             GetComponent<EnemyMove>().enabled = false;
+            //GetComponent <EnemyMove2>().enabled = false;
 
             EnemyRb.freezeRotation = false;
             //unfreezes the enemys rotations upon hit
