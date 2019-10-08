@@ -11,9 +11,10 @@ public class EnemyHit : MonoBehaviour
     public AudioClip oof;
     private AudioSource audio;
 
-    public Transform securityPrefab;
+    public GameObject securityPrefab;
     private int securityCount =0;
  
+    
 
     //bool to see if the ball hits an enemy
    static public bool hitEnemy = false;
@@ -23,6 +24,8 @@ public class EnemyHit : MonoBehaviour
 
         if (other.gameObject.tag == "Ball")
         {
+            Score.score++;
+            Pickup.thrown = false;
 
             //for some reason they dont both work? need a way to fix this
             if (gameObject.tag == "Enemy")
@@ -38,8 +41,8 @@ public class EnemyHit : MonoBehaviour
                 if (securityCount <= 10)
                 {
                     Vector3 randomPosition = new Vector3(Random.Range(0f,85f),1f, Random.Range(-14f,14f));
-                    Instantiate(securityPrefab, randomPosition, Quaternion.Euler(0, Random.Range(0f,360),0));
-                    GetComponent<FollowPlayer>().enabled = true;
+                   GameObject Clone = Instantiate(securityPrefab, randomPosition, Quaternion.Euler(0, Random.Range(0f,360),0));
+                    //GetComponent<FollowPlayer>().enabled = true;
 
                     //increment the counter
                     securityCount++;
@@ -78,6 +81,9 @@ public class EnemyHit : MonoBehaviour
         
         //oof audio
        audio = GetComponent<AudioSource>();
+
+        if (gameObject.CompareTag("Security"))
+            GetComponent<FollowPlayer>().enabled = true;
     }
 
     // Update is called once per frame

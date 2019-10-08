@@ -13,6 +13,8 @@ public class Pickup : MonoBehaviour
     private bool beingCarried = false;
 
     public Rigidbody Rb;
+
+    public static bool thrown = false;
     
 
     void OnCollisionEnter(Collision other)
@@ -37,18 +39,25 @@ public class Pickup : MonoBehaviour
     {
         Rb = GetComponent<Rigidbody>();
         EnemyHit.hitEnemy = true;
+        thrown = false;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Rb.velocity == new Vector3(0,0,0) && thrown == true)
+        {
+            player.gameObject.GetComponent<PlayerMove>().enabled = false;
+            player.gameObject.GetComponent<Rigidbody>().freezeRotation = false;
+        }
         Vector3 destination = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
         
         if (beingCarried)
         {
             if (Input.GetMouseButtonDown(0))
             {
+                thrown = true;
                 transform.parent = null;
                 beingCarried = false;
                 //sets bool to false
@@ -67,9 +76,13 @@ public class Pickup : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0) && hasPlayer)
             {
+
+                thrown = false;
+               
                 //if the enemyhit returns true, then run this
                 if (EnemyHit.hitEnemy == true)
                 {
+                    thrown = false;
                     Rb.isKinematic = true;
                     transform.parent = player;
                     transform.localPosition = new Vector3(0,.5f,1);
@@ -77,6 +90,7 @@ public class Pickup : MonoBehaviour
                 }
                
             }
+            
         }
     }
 }

@@ -11,15 +11,34 @@ public class PlayerMove : MonoBehaviour
 
     public float lookSpeed = 300f;
 
-    Vector3 inputVector;
+    public Vector3 inputVector;
 
     private float upDownRotation;
+
+    public static bool Tackled = false;
+    
+    
     // Start is called before the first frame update
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked; // lock cursor in the center of the screen
         Cursor.visible = false; //hides the cursor just to be safe
+        Tackled = false;
+    }
+    
+    //security collision detection
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Security")
+        {
+            Debug.Log("Tackled");
+            Tackled = true;
+           
+            gameObject.GetComponent<Rigidbody>().freezeRotation = false;
+            gameObject.GetComponent<PlayerMove>().enabled = false;
+            
+        }
     }
     // Update is called once per frame
     void Update()
@@ -50,6 +69,7 @@ public class PlayerMove : MonoBehaviour
 		
         inputVector = transform.forward * vertical * moveSpeed; //forward/back direction
         inputVector += transform.right * horizontal * moveSpeed; //left/right direction
+        
     }
     void FixedUpdate() //all physics code should go in FixedUpdate!!!
     {

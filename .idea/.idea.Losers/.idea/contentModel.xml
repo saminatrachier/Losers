@@ -14,6 +14,7 @@
           <e p="LightDetect.cs" t="Include" />
           <e p="Pickup.cs" t="Include" />
           <e p="PlayerMove.cs" t="Include" />
+          <e p="Score.cs" t="Include" />
           <e p="SecurityManager.cs" t="Include" />
         </e>
       </e>

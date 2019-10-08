@@ -141,7 +141,7 @@ MonoBehaviour:
   EnemyRb: {fileID: 5266080249968564489}
   Ball: {fileID: 7981262295830136152, guid: 4f6b3fa4b9dfbe24795e1cf5f831a4a6, type: 3}
   oof: {fileID: 8300000, guid: 6e37920152e50e04f872a8fc855fbcb3, type: 3}
-  securityPrefab: {fileID: 5266080249968564501}
+  securityPrefab: {fileID: 5266080249968564497}
 --- !u!82 &5266080249968564491
 AudioSource:
   m_ObjectHideFlags: 0
