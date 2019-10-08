@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Ball
+  - Enemy2
+  - Security
   layers:
   - Default
   - TransparentFX
